@@ -82,4 +82,9 @@ pub mod spi {
         transfer_amount(ctx, amount, mint_amount, percentage_off)?;
         Ok(())
     }
+    
+    pub fn membership(ctx: Context<Membership>, amount:u64) -> Result<()>{
+        purchase_membership(ctx, amount)?;
+        Ok(())
+    }
 }

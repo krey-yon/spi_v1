@@ -22,8 +22,8 @@ describe("SPI program tests", () => {
     "EGqp1Wx49TmTgE7XR5CARvzq3dxLVbRXji4KcD9REdtG",
   ];
 
-  const rootSeeds = "membership_root_spi_trial_23";
-  const asaSeeds = "user_asa_spi_trial_23";
+  const rootSeeds = "membership_root_spi_trial_24";
+  const asaSeeds = "user_asa_spi_trial_24";
 
   const program = anchor.workspace.spi as Program<Spi>;
   const provider = anchor.AnchorProvider.local();
@@ -157,7 +157,7 @@ describe("SPI program tests", () => {
 
   it("Creating merchant token", async () => {
     const spiMint = anchor.web3.Keypair.generate();
-
+    console.log("spi mint", spiMint.publicKey)
     const tx = await program.methods
       .createToken("Kreyon", "KRYN", "https://ipfs.kreyon.in/spi-token")
       .accounts({
@@ -186,5 +186,19 @@ describe("SPI program tests", () => {
       })
       .rpc();
     console.log("transfer transaction sig", tx);
+  });
+
+  it("checking membership function", async () => {
+    const merchantKey = new PublicKey("3gRm7Aj1x22JBu3LPRhWm1SNeEc6jHaC46uxH65Er6rg");
+
+    const tx = await program.methods
+      .membership(new anchor.BN(100000000))
+      .accounts({
+        merchant: merchantKey,
+        sender: provider.wallet.publicKey,
+      })
+      .rpc();
+
+    console.log(tx);
   });
 });
